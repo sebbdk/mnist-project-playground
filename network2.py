@@ -1,6 +1,9 @@
+# %load network.py
+
 """
 network.py
 ~~~~~~~~~~
+IT WORKS
 
 A module to implement the stochastic gradient descent learning
 algorithm for a feedforward neural network.  Gradients are calculated
@@ -15,6 +18,7 @@ import random
 
 # Third-party libraries
 import numpy as np
+
 #### Miscellaneous functions
 def sigmoid(z):
     """The sigmoid function."""
@@ -23,6 +27,12 @@ def sigmoid(z):
 def sigmoid_prime(z):
     """Derivative of the sigmoid function."""
     return sigmoid(z)*(1-sigmoid(z))
+
+def relu(x):
+	return np.max(0.0, x)
+
+def relu_prime(z):
+    return np.greater(z, 0).astype(int)
 
 class Network(object):
 
@@ -61,8 +71,14 @@ class Network(object):
         network will be evaluated against the test data after each
         epoch, and partial progress printed out.  This is useful for
         tracking progress, but slows things down substantially."""
-        if test_data: n_test = len(test_data)
+
+        training_data = list(training_data)
         n = len(training_data)
+
+        if test_data:
+            test_data = list(test_data)
+            n_test = len(test_data)
+
         for j in range(epochs):
             random.shuffle(training_data)
             mini_batches = [
@@ -71,9 +87,9 @@ class Network(object):
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
             if test_data:
-                print(f"Epoch {j}/{epochs}: {self.evaluate(test_data)} / {n_test}")
+                print("Epoch {} : {} / {}".format(j,self.evaluate(test_data),n_test))
             else:
-                print(f"Epoch {j}/{epochs} complete")
+                print("Epoch {} complete".format(j))
 
     def update_mini_batch(self, mini_batch, eta):
         """Update the network's weights and biases by applying
@@ -82,7 +98,6 @@ class Network(object):
         is the learning rate."""
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
-
         for x, y in mini_batch:
             delta_nabla_b, delta_nabla_w = self.backprop(x, y)
             nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
