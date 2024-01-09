@@ -18,3 +18,6 @@ test_data = datasets.MNIST(
     download=True,
     transform=ToTensor()
 )
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+device
