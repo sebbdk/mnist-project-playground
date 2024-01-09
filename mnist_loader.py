@@ -44,6 +44,7 @@ def load_data(path):
     f.close()
     return (list(training_data), list(validation_data), list(test_data))
 
+
 def load_data_wrapper(path):
     """Return a tuple containing ``(training_data, validation_data,
     test_data)``. Based on ``load_data``, but the format is more
@@ -65,6 +66,7 @@ def load_data_wrapper(path):
     the training data and the validation / test data.  These formats
     turn out to be the most convenient for use in our neural network
     code."""
+
     tr_d, va_d, te_d = load_data(path)
     training_inputs = [np.reshape(x, (784, 1)) for x in tr_d[0]]
     training_results = [vectorized_result(y) for y in tr_d[1]]
@@ -73,7 +75,20 @@ def load_data_wrapper(path):
     validation_data = zip(validation_inputs, va_d[1])
     test_inputs = [np.reshape(x, (784, 1)) for x in te_d[0]]
     test_data = zip(test_inputs, te_d[1])
+
     return (list(training_data), list(validation_data), list(test_data))
+
+def load_data_wrapper_pickled():
+    with open('./mnist_np/mnist.pkl','rb') as f:
+        mnist = pickle.load(f)
+
+    vlabl =  [vectorized_result(y) for y in  mnist["training_labels"][:50000]]
+
+    training_data = list(zip(mnist["training_images"][:50000], vlabl))
+    validation_data = list(zip(mnist["training_images"][50000:], mnist["training_labels"][50000:]))
+    test_data = list( zip(mnist["test_images"], mnist["test_labels"]))
+
+    return (training_data, validation_data, test_data)
 
 def vectorized_result(j):
     """Return a 10-dimensional unit vector with a 1.0 in the jth
