@@ -1,5 +1,5 @@
 .venv
 __pycache__
 .DS_Store
-mnist_np/.tmp
-mnist_np/mnist.pkl
+.tmp
+mnist.pkl

@@ -12,7 +12,7 @@ filename = [
 	["test_labels","t10k-labels-idx1-ubyte.gz"]
 ]
 
-basePath = './mnist_np/';
+basePath = './from_scratch/mnist_np/';
 tmpPath = basePath +'.tmp/';
 
 def download_mnist():
