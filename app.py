@@ -7,7 +7,7 @@ training_data, validation_data, test_data = mnist_loader.load_data_wrapper_pickl
 
 print(training_data[0])
 
-#test 4
+#test 20
 
 def npRelu(x):
     return np.where(x > 0, x, 0)
