@@ -4,3 +4,5 @@ __pycache__
 .tmp
 mnist.pkl
 data
+PATH_TO_STORE_TESTSET
+PATH_TO_STORE_TRAINSET
