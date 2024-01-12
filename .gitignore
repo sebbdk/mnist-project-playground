@@ -8,3 +8,5 @@ data
 data
 PATH_TO_STORE_TESTSET
 PATH_TO_STORE_TRAINSET
+model_cross_entropy_relu.csv
+
