@@ -10,3 +10,4 @@ model_cross_entropy_relu.csv
 
 MNIST_data
 data
+model_cross_entropy_sigmoid.csv
