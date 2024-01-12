@@ -3,13 +3,10 @@ import csv
 def saveResult(epoch,learning_rate,loss,batch_size,epoch_pro,epoch_performance, name):
 	with open(f'{name}.csv', 'w', newline='') as csvfile:
 		resultwriter = csv.writer(csvfile)
-						
-		resultwriter.writerow([epoch]+[learning_rate]+[loss]+[batch_size])
+
+		resultwriter.writerow([epoch, learning_rate, loss, batch_size])
 		for pro,perf in zip(epoch_pro, epoch_performance):
 			resultwriter.writerow([pro, perf])
-	
-
-
 
 if __name__ == "__main__":
 	name = "test_data"
