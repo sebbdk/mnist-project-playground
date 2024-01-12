@@ -126,9 +126,9 @@ class Network(object):
             zs.append(z)
             activation = self.acti(z)
             activations.append(activation)
+
         # backward pass
-        delta = self.cost_derivative(activations[-1], y) * \
-            self.actiPrime(zs[-1])
+        delta = self.cost_derivative(activations[-1], y) * self.actiPrime(zs[-1])
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
         # Note that the variable l in the loop below is used a little
@@ -152,6 +152,7 @@ class Network(object):
         neuron in the final layer has the highest activation."""
         test_results = [(np.argmax(self.feedforward(x)), y)
                         for (x, y) in test_data]
+
         return np.sum(int(x == y) for (x, y) in test_results)
 
     def cost_derivative(self, output_activations, y):
