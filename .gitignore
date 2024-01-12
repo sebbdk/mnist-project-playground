@@ -5,3 +5,6 @@ __pycache__
 mnist.pkl
 MNIST_data
 data
+data
+PATH_TO_STORE_TESTSET
+PATH_TO_STORE_TRAINSET
