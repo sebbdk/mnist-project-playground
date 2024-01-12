@@ -44,8 +44,7 @@ valloader = torch.utils.data.DataLoader(valset, batch_size=64, shuffle=True)
 #plt.imshow(images[0].numpy().squeeze(), cmap='gray_r');
 #displays one image from the training set
 #########################################################################################
-
-
+#display some more images:
 #figure = plt.figure()
 #num_of_images = 60
 #for index in range(1, num_of_images + 1):
