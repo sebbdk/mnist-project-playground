@@ -15,6 +15,8 @@ and omits many desirable features.
 #### Libraries
 # Standard library
 import random
+import tools
+import time
 
 # Third-party libraries
 import numpy as np
@@ -47,13 +49,16 @@ class Network(object):
         layer is assumed to be an input layer, and by convention we
         won't set any biases for those neurons, since biases are only
         ever used in computing the outputs from later layers."""
+        self.sizes = sizes
         self.acti = acti;
         self.actiPrime = actiPrime;
-        self.num_layers = len(sizes)
-        self.sizes = sizes
-        self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
+        self.reset();
+
+    def reset(self):
+        self.num_layers = len(self.sizes)
+        self.biases = [np.random.randn(y, 1) for y in self.sizes[1:]]
         self.weights = [np.random.randn(y, x)
-                        for x, y in zip(sizes[:-1], sizes[1:])]
+                        for x, y in zip(self.sizes[:-1], self.sizes[1:])]
 
     def feedforward(self, a):
         """Return the output of the network if ``a`` is input."""
@@ -62,7 +67,7 @@ class Network(object):
         return a
 
     def SGD(self, training_data, epochs, mini_batch_size, eta,
-            test_data=None, debug=False):
+            test_data=None, debug=False, repeats=1):
         """Train the neural network using mini-batch stochastic
         gradient descent.  The ``training_data`` is a list of tuples
         ``(x, y)`` representing the training inputs and the desired
@@ -72,6 +77,9 @@ class Network(object):
         epoch, and partial progress printed out.  This is useful for
         tracking progress, but slows things down substantially."""
 
+        prog = []
+        timings = []
+
         training_data = list(training_data)
         n = len(training_data)
 
@@ -79,20 +87,36 @@ class Network(object):
             test_data = list(test_data)
             n_test = len(test_data)
 
-        for j in range(epochs):
-            random.shuffle(training_data)
-            mini_batches = [
-                training_data[k:k+mini_batch_size]
-                for k in range(0, n, mini_batch_size)]
-            for mini_batch in mini_batches:
-                self.update_mini_batch(mini_batch, eta)
-            if debug and test_data != None:
-                print(f"Epoch {j+1}/{epochs}: {self.evaluate(test_data)} / {n_test}")
-            else:
-                print(f"Epoch {j+1}/{epochs} complete")
+        t = time.time()
+        for rep in range(0, repeats):
+            print(f"started rep {rep}/{repeats}")
+
+            for j in range(epochs):
+                random.shuffle(training_data)
+                mini_batches = [
+                    training_data[k:k+mini_batch_size]
+                    for k in range(0, n, mini_batch_size)]
+                for mini_batch in mini_batches:
+                    self.update_mini_batch(mini_batch, eta)
+
+                if debug and test_data != None:
+                    deltaTime = time.time() - t
+                    t = time.time()
+                    r = self.evaluate(test_data)
+
+                    prog.append(r/n_test)
+                    timings.append(deltaTime)
+
+                    print(f"Epoch {j+1}/{epochs}: {r} / {n_test}")
+                else:
+                    print(f"Epoch {j+1}/{epochs} complete")
+
+            self.reset();
 
         if (test_data != None):
             print(f"Done: {self.evaluate(test_data)} / {n_test}")
+
+        return (prog, timings)
 
     def update_mini_batch(self, mini_batch, eta):
         """Update the network's weights and biases by applying
