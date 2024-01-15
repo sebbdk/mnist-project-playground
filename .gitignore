@@ -3,13 +3,14 @@ __pycache__
 .DS_Store
 .tmp
 mnist.pkl
-MNIST_data
-data
 data
 PATH_TO_STORE_TESTSET
 PATH_TO_STORE_TRAINSET
-model_cross_entropy_relu.csv
+pytorch/sebastian/model_cross_entropy_relu.csv
+pytorch/sebastian/model_cross_entropy_sigmoid.csv
+pytorch/sebastian/model_cross_entropy_sigmoid_n.csv
+pytorch/sebastian/test_relu.csv
+pytorch/sebastian/test_sigma.csv
 
 MNIST_data
 data
-model_cross_entropy_sigmoid.csv
